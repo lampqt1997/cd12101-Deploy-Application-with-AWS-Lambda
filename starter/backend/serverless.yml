@@ -36,10 +36,12 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:GetItem
-          - dynamodb:UpdateItem
-          - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+          - "dynamodb:Query"
+          - "dynamodb:GetItem"
+          - "dynamodb:Scan"
+        Resource:
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}"
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}/index/*"
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -58,10 +60,11 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:GetItem
-          - dynamodb:UpdateItem
-          - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+          - "dynamodb:PutItem"
+          - "dynamodb:UpdateItem"
+        Resource:
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}"
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}/index/*"
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -80,10 +83,11 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:GetItem
-          - dynamodb:UpdateItem
-          - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+          - "dynamodb:PutItem"
+          - "dynamodb:UpdateItem"
+        Resource:
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}"
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}/index/*"
       - Effect: "Allow"
         Action:
           - "xray:PutTraceSegments"
@@ -102,10 +106,15 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:GetItem
-          - dynamodb:UpdateItem
-          - dynamodb:PutItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+          - "dynamodb:DeleteItem"
+        Resource:
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}"
+          - "arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:provider.environment.TODOS_TABLE}/index/*"
+      - Effect: "Allow"
+        Action:
+          - "xray:PutTraceSegments"
+          - "xray:PutTelemetryRecords"
+        Resource: "*"
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
