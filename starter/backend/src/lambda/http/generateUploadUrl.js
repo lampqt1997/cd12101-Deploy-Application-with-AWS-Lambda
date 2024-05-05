@@ -3,12 +3,14 @@ import cors from '@middy/http-cors';
 import httpErrorHandler from '@middy/http-error-handler';
 import { generateUploadUrl } from '../../businessLogic/todos.mjs';
 import {createLogger} from "../../utils/logger.mjs";
+import {getUserId} from "../utils.mjs";
 const logger = createLogger(' generateUploadUrl')
 
 const generateUploadUrlHandler = async (event) => {
     try {
+        const userId = getUserId(event);
         const todoId = event.pathParameters.todoId;
-        const url = await generateUploadUrl(todoId);
+        const url = await generateUploadUrl(todoId, userId);
         return {
             statusCode: 200,
             body: JSON.stringify({
